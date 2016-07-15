@@ -1,6 +1,12 @@
 package com.android.volley.toolbox;
 
+import java.io.UnsupportedEncodingException;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
@@ -34,8 +40,8 @@ public class FileDownloadRequest extends Request<Object> {
 
 	@Override
 	protected Response<Object> parseNetworkResponse(NetworkResponse response) {
-		// TODO Auto-generated method stub
-		return null;
+		return Response.success(new Object(),
+		        HttpHeaderParser.parseCacheHeaders(response));
 	}
 
 	@Override
@@ -50,7 +56,7 @@ public class FileDownloadRequest extends Request<Object> {
 	public void deliverProcess(long fileSize, long downloadSize) {
 		mTotalFileSize = fileSize;
 		mDownloadSize = downloadSize;
-		float process = downloadSize / fileSize;
+		float process = (float)downloadSize / (float)fileSize;
 		mProcessListener.onProcess(process);
 	}
 

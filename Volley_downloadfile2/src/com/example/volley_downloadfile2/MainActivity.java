@@ -63,6 +63,7 @@ public class MainActivity extends Activity {
 				};
 				FileDownloadRequest fileRequest = new FileDownloadRequest(Method.GET, 
 						url, processListener, listener, errorListener);
+				fileRequest.setShouldCache(true);
 				mQueue.add(fileRequest);
 				
 			}
