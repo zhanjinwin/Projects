@@ -6,6 +6,7 @@ import com.android.volley.Request.Method;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.Response.ProcessListener;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.FileDownloadRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -63,7 +64,7 @@ public class MainActivity extends Activity {
 				};
 				FileDownloadRequest fileRequest = new FileDownloadRequest(Method.GET, 
 						url, processListener, listener, errorListener);
-				fileRequest.setShouldCache(true);
+				fileRequest.setShouldCache(false);
 				mQueue.add(fileRequest);
 				
 			}

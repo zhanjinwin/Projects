@@ -17,6 +17,7 @@
 package com.android.volley.toolbox;
 
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Cache;
@@ -100,6 +101,7 @@ public class BasicNetwork implements Network {
 
                 responseHeaders = convertHeaders(httpResponse.getAllHeaders());
                 // Handle cache validation.
+                Log.e("test","statusCode = "+statusCode);
                 if (statusCode == HttpStatus.SC_NOT_MODIFIED) {
 
                     Entry entry = request.getCacheEntry();

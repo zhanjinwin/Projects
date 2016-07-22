@@ -591,7 +591,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
     public byte[] handleResponseData(HttpResponse response) throws ServerError, IOException {
 		if (response.getEntity() != null) {
 			HttpEntity entity = response.getEntity();
-			ByteArrayPool pool = new ByteArrayPool(1024 * 10);
+			ByteArrayPool pool = new ByteArrayPool(4096);
 			PoolingByteArrayOutputStream bytes =
 		            new PoolingByteArrayOutputStream(pool, (int) entity.getContentLength());
 		    byte[] buffer = null;

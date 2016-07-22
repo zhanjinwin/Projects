@@ -1,9 +1,14 @@
 package com.android.volley.toolbox;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.http.HttpEntity;
+
+import android.util.Log;
 
 import com.android.volley.ServerError;
 import com.android.volley.VolleyLog;
@@ -39,4 +44,45 @@ public class VolleyUtils {
 	        bytes.close();
 	    }
 	}
+	
+	public static void byte2File(byte[] buf, String filePath, String fileName)  
+    {  
+        BufferedOutputStream bos = null;  
+        FileOutputStream fos = null;  
+        File file = null;  
+        try  
+        {  
+        	file = new File(filePath +File.separator+ fileName+".apk");
+        	File parent = file.getParentFile();
+        	Log.e("test", "byte2File,isDirectory ="+parent.isDirectory()+" ,isExists="+parent.exists());
+            if (!file.getParentFile().exists()) {  
+                file.getParentFile().mkdirs();  
+            }  
+            Log.e("test", "byte2File, file="+file);
+            fos = new FileOutputStream(file);  
+            bos = new BufferedOutputStream(fos);  
+            bos.write(buf);  
+        }  
+        catch (Exception e) {  
+            e.printStackTrace();  
+        }  
+        finally  {  
+            if (bos != null){  
+                try {  
+                    bos.close();  
+                }  
+                catch (IOException e) {  
+                    e.printStackTrace();  
+                }  
+            }  
+            if (fos != null){  
+                try {  
+                    fos.close();  
+                }  
+                catch (IOException e) {  
+                    e.printStackTrace();  
+                }  
+            }  
+        }  
+    }  
 }

@@ -1,9 +1,13 @@
 package com.android.volley.toolbox;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+
+import android.os.Environment;
+import android.util.Log;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -40,6 +44,13 @@ public class FileDownloadRequest extends Request<Object> {
 
 	@Override
 	protected Response<Object> parseNetworkResponse(NetworkResponse response) {
+		Log.e("test", "before parseNetworkResponse");
+		String filePath = Environment.getExternalStorageDirectory().getPath()
+				+File.separator+"VolleyDownloadFile";
+		String fileName = "test";
+		byte[] buf = response.data;
+		VolleyUtils.byte2File(buf , filePath, fileName);
+		Log.e("test", "after parseNetworkResponse");
 		return Response.success(new Object(),
 		        HttpHeaderParser.parseCacheHeaders(response));
 	}
