@@ -16,6 +16,8 @@
 
 package com.android.volley.toolbox;
 
+import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Request.Method;
@@ -105,6 +107,7 @@ public class HurlStack implements HttpStack {
             connection.addRequestProperty(headerName, map.get(headerName));
         }
         setConnectionParametersForRequest(connection, request);
+        Log.e("test", "HurlStack.performRequest,connection="+connection);
         // Initialize HttpResponse with data from the HttpURLConnection.
         ProtocolVersion protocolVersion = new ProtocolVersion("HTTP", 1, 1);
         int responseCode = connection.getResponseCode();

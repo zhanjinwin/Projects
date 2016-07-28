@@ -57,9 +57,12 @@ public class VolleyUtils {
         	Log.e("test", "byte2File,isDirectory ="+parent.isDirectory()+" ,isExists="+parent.exists());
             if (!file.getParentFile().exists()) {  
                 file.getParentFile().mkdirs();  
-            }  
+                fos = new FileOutputStream(file);  
+            }  else{
+            	fos = new FileOutputStream(file,true);  
+            }
             Log.e("test", "byte2File, file="+file);
-            fos = new FileOutputStream(file);  
+//            fos = new FileOutputStream(file,true);  
             bos = new BufferedOutputStream(fos);  
             bos.write(buf);  
         }  

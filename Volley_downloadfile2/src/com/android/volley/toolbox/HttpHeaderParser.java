@@ -16,6 +16,8 @@
 
 package com.android.volley.toolbox;
 
+import android.util.Log;
+
 import com.android.volley.Cache;
 import com.android.volley.NetworkResponse;
 
@@ -60,6 +62,7 @@ public class HttpHeaderParser {
         }
 
         headerValue = headers.get("Cache-Control");
+        Log.e("test", "parseCacheHeaders,Cache-Control="+headerValue);
         if (headerValue != null) {
             hasCacheControl = true;
             String[] tokens = headerValue.split(",");

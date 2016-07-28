@@ -133,9 +133,9 @@ public class VolleyLog {
 
         /** Adds a marker to this log with the specified name. */
         public synchronized void add(String name, long threadId) {
-            if (mFinished) {
-                throw new IllegalStateException("Marker added to finished log");
-            }
+//            if (mFinished) {
+//                throw new IllegalStateException("Marker added to finished log");
+//            }
 
             Marker marker = new Marker(name, threadId, SystemClock.elapsedRealtime());
             mMarkers.add(marker);

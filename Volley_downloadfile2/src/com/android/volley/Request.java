@@ -580,14 +580,6 @@ public abstract class Request<T> implements Comparable<Request<T>> {
      */
     abstract protected void deliverResponse(T response);
     
-    public void deliverProcess(long fileSize, long downloadSize){
-    	
-    }
-    
-    public long getDownloadedSize(){
-    	return 0;
-    }
-    
     public byte[] handleResponseData(HttpResponse response) throws ServerError, IOException {
 		if (response.getEntity() != null) {
 			HttpEntity entity = response.getEntity();
@@ -604,7 +596,6 @@ public abstract class Request<T> implements Comparable<Request<T>> {
 		        int count;
 		        while ((count = in.read(buffer)) != -1) {
 		            bytes.write(buffer, 0, count);
-		            deliverProcess(entity.getContentLength(), getDownloadedSize() + count);
 		        }
 		        return bytes.toByteArray();
 		    } finally {
