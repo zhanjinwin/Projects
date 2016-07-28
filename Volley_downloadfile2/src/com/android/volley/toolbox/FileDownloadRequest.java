@@ -26,11 +26,11 @@ import com.android.volley.ServerError;
 import com.android.volley.VolleyLog;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
-import com.android.volley.Response.ProcessListener;
+import com.android.volley.toolbox.FiledownloadListener;
 
 public class FileDownloadRequest extends Request<Object> {
 	
-	private ProcessListener mProcessListener;
+	private FiledownloadListener mFiledownloadListener;
 	private Listener<Object> mListener;
 	private long mTotalFileSize;
 	private long mDownloadSize;
@@ -45,16 +45,16 @@ public class FileDownloadRequest extends Request<Object> {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public FileDownloadRequest(int method, String url, ProcessListener processListener,
+	public FileDownloadRequest(int method, String url, FiledownloadListener processListener,
 			Listener<Object> listener, ErrorListener errorListener){
 		super(method, url, errorListener);
-		mProcessListener = processListener;
+		mFiledownloadListener = processListener;
 		mListener = listener;
 	}
 	
 	public FileDownloadRequest(FileDownloadRequest request){
 		super(request.getMethod(), request.getUrl(), request.getErrorListener());
-		mProcessListener = request.mProcessListener;
+		mFiledownloadListener = request.mFiledownloadListener;
 		mListener = request.mListener;
 		mTotalFileSize = request.mTotalFileSize;
 		mDownloadSize = request.mDownloadSize;
@@ -75,13 +75,13 @@ public class FileDownloadRequest extends Request<Object> {
 
 	@Override
 	protected void deliverResponse(Object response) {
-		// TODO Auto-generated method stub
+		mListener.onResponse(response);
 		
 	}
 	
 	public void deliverProcess(long downloadSize) {
 		mDownloadSize = downloadSize;
-		mProcessListener.onProcess(mTotalFileSize, downloadSize);
+		mFiledownloadListener.onProcess(mTotalFileSize, downloadSize);
 	}
 
 	public long getDownloadedSize() {
@@ -166,7 +166,7 @@ public class FileDownloadRequest extends Request<Object> {
     	return  file.exists();
     }
     
-    static String sFilePath = Environment.getExternalStorageDirectory().getPath()
+    public static String sFilePath = Environment.getExternalStorageDirectory().getPath()
 			+File.separator+"VolleyDownloadFile"
 			+File.separator+ "test"+".apk";
     
@@ -184,6 +184,7 @@ public class FileDownloadRequest extends Request<Object> {
 				fos = new FileOutputStream(file);
 			}
 			
+			mFiledownloadListener.onStart();
 		    byte[] buffer = new byte[1024*100];
 		    try {
 		        InputStream in = entity.getContent();
@@ -201,6 +202,9 @@ public class FileDownloadRequest extends Request<Object> {
 		            	deliverProcess(getDownloadedSize() + count);
 		            }
 		        }
+		        if(getDownloadedSize() == mTotalFileSize){
+		        	mFiledownloadListener.onComplete();
+		        } 
 		        return null;
 		    } finally {
 		        try {
@@ -237,5 +241,8 @@ public class FileDownloadRequest extends Request<Object> {
 		}
 	}
 	
-	
+	public static void deleteFile(String path){
+		File file = new File(path);
+		file.delete();
+	}
 }

@@ -23,9 +23,6 @@ package com.android.volley;
  */
 public class Response<T> {
 	
-	public interface ProcessListener {
-		public void onProcess(long fileSize, long downloadSize);
-	}
 
     /** Callback interface for delivering parsed responses. */
     public interface Listener<T> {
