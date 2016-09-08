@@ -33,6 +33,13 @@
             android:name="com.example.testbundle.TargetActivity"
             android:label="@string/hello_world">
         </activity>
+        
+        <provider 
+            android:name="com.example.testbundle.TargetProvider"
+            android:authorities="com.examp.testbundle.testcall"
+            android:exported="true">
+            
+        </provider>
     </application>
 
 </manifest>

@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.annotation.SuppressLint;
@@ -60,11 +61,23 @@ public class MainActivity extends Activity {
 				
 				Log.e("test", "bitmap.with="+result.getWidth()+" ,height="+result.getHeight()+" ,allocateSize ="+result.getAllocationByteCount());		
 				bundle.putParcelable("bitmap", result);
-				intent.putExtras(bundle);
+				boolean hasFd = bundle.hasFileDescriptors();
+				int contents = bundle.describeContents();
+				Log.e("test", "hasFd="+hasFd+" ,contents="+contents);
+//				intent.putExtras(bundle);
+				callProvider(bundle);
 				startActivity(intent);
 				
 			}
 		});
+	}
+	
+	@SuppressLint("NewApi")
+	public void callProvider(Bundle bundle){
+//		getContentResolver().call(Uri.parse("content://com.examp.testbundle.testcall"), 
+//				"bitmap", "bitmap", bundle);
+		getContentResolver().call(Uri.parse("content://cn.nubia.launcher.settings"), 
+				"launcherFit", "initBitmap", bundle);
 	}
 
 	@Override
@@ -138,6 +151,7 @@ public class MainActivity extends Activity {
 		Class<?> bitmapClass = Bitmap.class;
 		try {
 			Method createAshem = bitmapClass.getMethod("createAshmemBitmap");
+			createAshem.setAccessible(true);
 			result = (Bitmap) createAshem.invoke(bitmap);
 		} catch (NoSuchMethodException e) {
 			// TODO Auto-generated catch block
