@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <RelativeLayout 
+        android:id="@+id/title_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp">
+        
+        <ImageView 
+            android:id="@+id/title_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/ark_ic_launcher"/>
+        <TextView 
+            android:id="@+id/title_tips"
+            android:layout_toRightOf="@id/title_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textSize="10sp"
+            android:text="@string/widget_title"/> 
+    </RelativeLayout>
+    
+    <ImageView 
+        android:id="@+id/divider"
+        android:layout_below="@id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:src="@color/divider_color"/>
+
+    <RelativeLayout 
+        android:layout_below="@id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="14dp"
+        android:layout_centerHorizontal="true">
+        <ImageView 
+            android:id="@+id/pause_icon"
+            android:layout_width="42dp"
+            android:layout_height="42dp" 
+            android:layout_centerInParent="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/widget_pause_normal"/>
+        
+        <ImageView 
+            android:id="@+id/prev_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/pause_icon"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="35dp"
+            android:src="@drawable/widget_prev_normal"/>
+
+        <ImageView 
+            android:id="@+id/next_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/pause_icon"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="35dp"
+            android:src="@drawable/widget_next_normal"/>
+    </RelativeLayout>
+</RelativeLayout>

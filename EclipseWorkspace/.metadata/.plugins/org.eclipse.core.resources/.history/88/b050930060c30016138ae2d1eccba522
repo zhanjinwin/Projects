@@ -1,0 +1,72 @@
+package com.example.testforcetouchpreviewwidget;
+
+import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
+import android.appwidget.AppWidgetProvider;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.RemoteViews;
+import android.widget.Toast;
+
+public class ForceTouchWidget extends AppWidgetProvider {
+
+	private static final String TAG = "ForceTouchWidget";
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		Log.e(TAG, "onReceive,action="+intent.getAction()+" ,data="+intent.getData());
+		if(intent.getData()!= null){
+			Toast.makeText(context, intent.getDataString(), 500);
+		}
+		super.onReceive(context, intent);
+	}
+
+	@Override
+	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+		super.onUpdate(context, appWidgetManager, appWidgetIds);
+		Log.e(TAG, "onUpdate");
+		RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.initial_widget_layout2);
+		remoteViews.setOnClickPendingIntent(R.id.prev_icon, getPendingIntent(context, R.id.prev_icon));
+		remoteViews.setOnClickPendingIntent(R.id.pause_icon, getPendingIntent(context, R.id.pause_icon));
+		remoteViews.setOnClickPendingIntent(R.id.next_icon, getPendingIntent(context, R.id.next_icon));
+		
+		appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
+		
+	}
+	
+	@Override
+	public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId,
+			Bundle newOptions) {
+		super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
+	}
+
+	private PendingIntent getPendingIntent(Context context, int id){
+		Intent intent = new Intent();
+		intent.setClass(context, ForceTouchWidget.class);
+		intent.setData(Uri.parse("This is default"));
+		PendingIntent result = PendingIntent.getBroadcast(context, 0, intent, 0);
+		switch (id) {
+		case R.id.prev_icon:
+			intent.setClass(context, ForceTouchWidget.class);
+			intent.setData(Uri.parse("This is prev_icon, start a broadcast"));
+			result = PendingIntent.getBroadcast(context, 0, intent, 0);
+			break;
+		case R.id.pause_icon:
+			intent.setClass(context, FroceTouchTestService.class);
+			intent.setData(Uri.parse("This is pause_icon, start a service"));
+			result = PendingIntent.getService(context, 0, intent, 0);
+			
+		case R.id.next_icon:
+			intent.setClass(context, MainActivity.class);
+			intent.setData(Uri.parse("This is next_icon, start a activity"));
+			result = PendingIntent.getActivity(context, 0, intent, 0, null);
+		default:
+			break;
+		}
+		
+		return result;
+	}
+}
